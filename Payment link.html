@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Will You Be My Valentine?</title>
+
+<style>
+body {
+height: 100vh;
+margin: 0;
+font-family: Arial, sans-serif;
+background: linear-gradient(135deg, #ffdde1, #ee9ca7);
+overflow: hidden;
+text-align: center;
+}
+
+h1 {
+margin-top: 40px;
+}
+
+button {
+padding: 14px 28px;
+font-size: 18px;
+cursor: pointer;
+border: none;
+border-radius: 30px;
+position: absolute;
+transition: transform 0.2s ease;
+}
+
+#yesBtn {
+background: #ff4d6d;
+color: white;
+left: 50%;
+top: 55%;
+transform: translate(-50%, -50%);
+}
+
+#noBtn {
+background: #555;
+color: white;
+}
+
+.pulse {
+animation: pulse 1s infinite;
+}
+
+@keyframes pulse {
+0% { transform: translate(-50%, -50%) scale(1); }
+50% { transform: translate(-50%, -50%) scale(1.15); }
+100% { transform: translate(-50%, -50%) scale(1); }
+}
+
+.heart {
+position: fixed;
+bottom: -20px;
+font-size: 20px;
+animation: float 6s linear infinite;
+color: #ff4d6d;
+}
+
+@keyframes float {
+from { transform: translateY(0); opacity: 1; }
+to { transform: translateY(-110vh); opacity: 0; }
+}
+</style>
+</head>
+
+<body>
+
+<h1>💌 Will You Be My Valentine? 💌</h1>
+
+<button id="yesBtn">Yes ❤️</button>
+<button id="noBtn">No ❌</button>
+
+<script>
+const noBtn = document.getElementById("noBtn");
+const yesBtn = document.getElementById("yesBtn");
+
+let noScale = 1;
+let yesScale = 1;
+let dodgeCount = 0;
+
+function moveNoBtn() {
+const maxX = window.innerWidth - noBtn.offsetWidth;
+const maxY = window.innerHeight - noBtn.offsetHeight;
+
+noBtn.style.left = Math.random() * maxX + "px";
+noBtn.style.top = Math.random() * maxY + "px";
+
+noScale *= 0.85;
+noBtn.style.transform = `scale(${noScale})`;
+
+yesScale *= 1.15;
+yesBtn.style.transform = `translate(-50%, -50%) scale(${yesScale})`;
+
+dodgeCount++;
+
+if (dodgeCount === 3) {
+yesBtn.classList.add("pulse");
+}
+
+if (noScale < 0.3) {
+noBtn.style.display = "none";
+}
+}
+
+noBtn.addEventListener("mouseover", moveNoBtn);
+noBtn.addEventListener("touchstart", moveNoBtn);
+
+yesBtn.addEventListener("click", () => {
+document.body.innerHTML = `
+<h1 style="margin-top:30vh;">💖 Happy Valentines Month Pika 💖</h1>
+<p style="font-size:20px; padding:20px;">
+you don’t have an option anymore! 😂❤️<br><br>
+I love you ❤️<br><br>
+Ok Bye! 🫡
+</p>
+`;
+confetti();
+});
+
+// Floating hearts
+setInterval(() => {
+const heart = document.createElement("div");
+heart.className = "heart";
+heart.innerText = "❤️";
+heart.style.left = Math.random() * 100 + "vw";
+heart.style.fontSize = Math.random() * 20 + 15 + "px";
+document.body.appendChild(heart);
+setTimeout(() => heart.remove(), 6000);
+}, 400);
+
+function confetti() {
+for (let i = 0; i < 120; i++) {
+const c = document.createElement("div");
+c.style.position = "fixed";
+c.style.width = "8px";
+c.style.height = "8px";
+c.style.background = ["#ff4d6d","#ffd166","#06d6a0","#4d96ff"][Math.floor(Math.random()*4)];
+c.style.left = Math.random() * 100 + "vw";
+c.style.top = "-10px";
+c.style.animation = "float 3s linear forwards";
+document.body.appendChild(c);
+setTimeout(() => c.remove(), 3000);
+}
+}
+</script>
+
+</body>
+</html>
